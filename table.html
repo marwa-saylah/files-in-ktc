@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="so">
+<head>
+    <meta charset="UTF-8">
+    <title>5 Table oo Qurxoon</title>
+    <style>
+        
+        body { font-family: 'Segoe UI', sans-serif; padding: 20px; background-color: #f4f4f4; }
+        h2 { color: #333; border-left: 5px solid #ff0000; padding-left: 10px; }
+
+        
+        table {
+            width: 100%;
+            border-collapse: collapse; 
+            margin-bottom: 40px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(149, 104, 104, 0.1);
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #333;
+            color: white;
+        }
+
+        
+        tr td:nth-child(odd):hover {
+            background-color: #ff0000 !important;
+            color: #ffffff !important;
+            font-weight: bold;
+        
+        }
+
+       
+        tr:nth-child(4) { background-color: #f9f9f9; }
+    </style>
+</head>
+<body>
+
+    <h2>1. Customers Table</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>City</th>
+            <th>Age </th>
+        </tr>
+        <tr><td>1</td><td>marwa saylah</td><td>marwa@email.com</td><td>Mogadishu</td><td>25</td></tr>
+        <tr><td>2</td><td>maryan mohamed </td><td>sara@email.com</td><td>Hargeisa</td><td>30</td></tr>
+        <tr><td>3</td><td>maneey omarr</td><td>maney@email.com</td><td>Garowe</td><td>22</td></tr>
+        <tr><td>4</td><td>maryan daa,uud</td><td>maryan@email.com</td><td>Kismayo</td><td>28</td></tr>
+        <tr><td>5</td><td>maymuun cumar</td><td>maiza@email.com</td><td>Borama</td><td>35</td></tr>
+    </table>
+
+    <h2>2. Employees Table</h2>
+    <table>
+        <tr>
+            <th>Emp ID</th>
+            <th>Full Name</th>
+            <th>Position</th>
+            <th>Dept</th>
+            <th>Salary</th>
+        </tr>
+        <tr><td>101</td><td>farhiya dahir</td><td>Developer</td><td>IT</td><td>$1500</td></tr>
+        <tr><td>102</td><td>mudan saylah</td/td><td>HR Manager</td><td>HR</td><td>$1200</td></tr>
+        <tr><td>103</td><td>muslima yuusuf</td><td>Accountant</td><td>Finance</td><td>$1100</td></tr>
+        <tr><td>104</td><td>Hodan yusuf</td><td>Designer</td><td>Creative</td><td>$1300</td></tr>
+        <tr><td>105</td><td>mahuran apdiwahap</td><td>Security</td><td>Admin</td><td>$800</td></tr>
+    </table>
+
+    <h2>3. Patients Table</h2>
+    <table>
+        <tr>
+            <th>P-ID</th>
+            <th>Name</th>
+            <th>Gender</th>
+            <th>Blood</th>
+            <th>Age</th>
+        </tr>
+        <tr><td>P-01</td><td>Deeqa Abdi</td><td>Female</td><td>A+</td><td>45</td></tr>
+        <tr><td>P-02</td><td>hawa muqtar</td><td>feMale</td><td>O-</td><td>12</td></tr>
+        <tr><td>P-03</td><td>Fadumo Apdiwahp</td><td>Female</td><td>B+</td><td>60</td></tr>
+        <tr><td>P-04</td><td>muciish muhidin</td><td>feMale</td><td>AB+</td><td>33</td></tr>
+        <tr><td>P-05</td><td>Sahra Omar</td><td>Female</td><td>O+</td><td>19</td></tr>
+    </table>
+
+    <h2>4. Registration Table</h2>
+    <table>
+        <tr>
+            <th>Reg No</th>
+            <th>Student</th>
+            <th>Course</th>
+            <th>Date</th>
+            <th>Status</th>
+        </tr>
+        <tr><td>R-1</td><td>anfac Ali</td><td>CS</td><td>2024</td><td>Pending</td></tr>
+        <tr><td>R-2</td><td>Sumaya Isse</td><td>Medicine</td><td>2024</td><td>Active</td></tr>
+        <tr><td>R-3</td><td>sabaad Aden</td><td>Nursing</td><td>2024</td><td>Active</td></tr>
+        <tr><td>R-4</td><td>Nimco Said</td><td>Eng</td><td>2024</td><td>Pass</td></tr>
+        <tr><td>R-5</td><td>Samiyo Nur</td><td>Agro</td><td>2024</td><td>Active</td></tr>
+    </table>
+
+    <h2>5. Products Table</h2>
+    <table>
+        <tr>
+            <th>Code</th>
+            <th>Item</th>
+            <th>Category</th>
+            <th>Stock</th>
+            <th>Price</th>
+        </tr>
+        <tr><td>C-10</td><td>Laptop</td><td>Tech</td><td>15</td><td>$500</td></tr>
+        <tr><td>C-11</td><td>Keyboard</td><td>Acc</td><td>50</td><td>$25</td></tr>
+        <tr><td>C-12</td><td>Mouse</td><td>Acc</td><td>100</td><td>$15</td></tr>
+        <tr><td>C-13</td><td>Monitor</td><td>Tech</td><td>20</td><td>$150</td></tr>
+        <tr><td>C-14</td><td>Printer</td><td>Office</td><td>10</td><td>$200</td></tr>
+    </table>
+
+</body>
+</html>

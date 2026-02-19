@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="so">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LibTech Ultra | Professional Library System</title>
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        :root {
+            --primary: #00d2ff;
+            --secondary: #3a7bd5;
+            --bg-dark: #050811;
+            --card-bg: #111827;
+            --text-gray: #94a3b8;
+            --accent: #facc15;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        
+        header {
+            background: rgba(11, 15, 25, 0.95);
+            backdrop-filter: blur(15px);
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 2000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--primary);
+            text-transform: uppercase;
+        }
+
+        nav ul { display: flex; list-style: none; gap: 30px; }
+        nav ul li a { text-decoration: none; color: var(--text-gray); font-weight: 500; transition: 0.3s; }
+        nav ul li a:hover { color: var(--primary); }
+
+        .auth-buttons { display: flex; gap: 12px; }
+        .btn { padding: 10px 25px; border-radius: 8px; font-weight: 600; cursor: pointer; text-decoration: none; transition: 0.3s; border: none; display: inline-block; }
+        .btn-login { background: var(--primary); color: #050811; }
+        .btn-logout { background: transparent; color: #ff4d4d; border: 1px solid #ff4d4d; }
+        .btn-logout:hover { background: #ff4d4d; color: #fff; }
+
+        
+        .page-content { display: block; }
+        #logout-screen { display: none; height: 100vh; align-items: center; justify-content: center; text-align: center; background: var(--bg-dark); }
+        
+        #logout-screen:target { display: flex; }
+        #logout-screen:target ~ .page-content, 
+        #logout-screen:target ~ header { display: none; }
+
+        
+        section { padding: 100px 8%; }
+
+        
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(rgba(5, 8, 17, 0.7), rgba(5, 8, 17, 0.7)),
+                        url('https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero h1 { font-size: 4rem; margin-bottom: 20px; color: #fff; }
+        .hero span { color: var(--primary); }
+
+
+        .services { background: var(--card-bg); }
+        .section-title { text-align: center; margin-bottom: 60px; }
+        .section-title h2 { font-size: 3rem; color: var(--primary); }
+
+        .service-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .service-card {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: 0.3s;
+        }
+        .service-card:hover { transform: translateY(-10px); background: rgba(255, 255, 255, 0.07); border-color: var(--primary); }
+        .service-card img { width: 80px; margin-bottom: 20px; filter: hue-rotate(180deg); }
+
+    
+        .books-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 25px; }
+        .book-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: 0.4s;
+        }
+        .book-card:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(0,210,255,0.2); }
+        .book-card img { width: 100%; height: 320px; object-fit: cover; }
+        .book-info { padding: 20px; }
+        .book-info h3 { font-size: 1.1rem; margin-bottom: 5px; }
+        .book-info p { color: var(--text-gray); font-size: 0.9rem; }
+        .availability { display: inline-block; margin-top: 10px; padding: 4px 12px; background: rgba(0, 210, 255, 0.1); color: var(--primary); border-radius: 50px; font-size: 0.8rem; }
+
+        
+        .contact-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            background: var(--card-bg);
+            padding: 50px;
+            border-radius: 30px;
+        }
+        .contact-form input, .contact-form textarea {
+            width: 100%; padding: 15px; margin-bottom: 15px; background: #050811; border: 1px solid #1e293b; color: white; border-radius: 10px;
+        }
+        .contact-form button { width: 100%; padding: 15px; background: var(--primary); border: none; font-weight: 700; border-radius: 10px; cursor: pointer; }
+
+        
+        .logout-box { background: var(--card-bg); padding: 80px; border-radius: 40px; border: 2px solid var(--primary); box-shadow: 0 0 50px rgba(0, 210, 255, 0.2); }
+
+        footer { padding: 40px; text-align: center; border-top: 1px solid #1e293b; color: var(--text-gray); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">LibTech<span>Ultra</span></div>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#books">Books</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="auth-buttons">
+            <a href="#" class="btn btn-login">Login</a>
+            <a href="#logout-screen" class="btn btn-logout">Logout</a>
+        </div>
+    </header>
+
+    <div id="logout-screen">
+        <div class="logout-box">
+            <h1 style="font-size: 3.5rem; margin-bottom: 20px;">Macasalaama! 👋</h1>
+            <p style="color: var(--text-gray); font-size: 1.2rem; margin-bottom: 30px;">Si guul leh ayaad uga baxday nidaamka maamulka maktabadda.</p>
+            <a href="index.html" class="btn btn-login" style="padding: 15px 40px;">Dib ugu Laabo Home</a>
+        </div>
+    </div>
+
+    <div class="page-content">
+
+        <section id="home" class="hero">
+            <div style="max-width: 800px;">
+                <h1>Maamul Maktabaddaada <span>Heer Caalami</span> ah.</h1>
+                <p style="font-size: 1.2rem; color: var(--text-gray); margin-bottom: 30px;">LibTech Ultra waa nidaamka ugu horeeya ee Soomaaliya ee si dhameystiran u xalliya baahiyaha maktabadaha, laga bilaabo diiwaangelinta ilaa warbixinada dhamaadka bisha.</p>
+                <a href="#books" class="btn btn-login" style="padding: 15px 45px; border-radius: 50px;">Eeg Buugaagta Yaala</a>
+            </div>
+        </section>
+
+        <section id="books">
+            <div class="section-title">
+                <h2>Buugaagta Hadda Yaala</h2>
+                <p>Ka dhex raadi buugaagta ugu dambeeyay ee ku soo biiray maktabadda.</p>
+            </div>
+            <div class="books-grid">
+                <div class="book-card">
+                    <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=400&q=80" alt="Book">
+                    <div class="book-info">
+                        <h3>Aqoonta Dunida</h3>
+                        <p>Qore: Axmed Cali</p>
+                        <span class="availability">Available</span>
+                    </div>
+                </div>
+                <div class="book-card">
+                    <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&w=400&q=80" alt="Book">
+                    <div class="book-info">
+                        <h3>Taariikhda Soomaaliya</h3>
+                        <p>Qore: Prof. Maxamed</p>
+                        <span class="availability">Available</span>
+                    </div>
+                </div>
+                <div class="book-card">
+                    <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=400&q=80" alt="Book">
+                    <div class="book-info">
+                        <h3>Cilmiga Sayniska</h3>
+                        <p>Qore: Dr. Sahra</p>
+                        <span class="availability" style="color: #ff4d4d;">Borrowed</span>
+                    </div>
+                </div>
+                <div class="book-card">
+                    <img src="https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=400&q=80" alt="Book">
+                    <div class="book-info">
+                        <h3>Horumarka Nafta</h3>
+                        <p>Qore: Cali Omar</p>
+                        <span class="availability">Available</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="services" class="services">
+            <div class="section-title">
+                <h2>Adeegyada LibTech</h2>
+                <p>Waxa aan kuu qaban karno si aan u fududayno shaqadaada.</p>
+            </div>
+            <div class="service-grid">
+                <div class="service-card">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3429/3429149.png" alt="Icon">
+                    <h3>Diiwaangelin Dijital Ah</h3>
+                    <p>Si fudud ku diiwaangeli buugaagta iyo xubnaha adoo isticmaalaya nidaam casri ah.</p>
+                </div>
+                <div class="service-card">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png" alt="Icon">
+                    <h3>Raadin Sahlan (Search)</h3>
+                    <p>Ka raadi buug kasta ilbiriqsiyo gudahood adoo isticmaalaya magaca ama lambarka sirta ah.</p>
+                </div>
+                <div class="service-card">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2618/2618245.png" alt="Icon">
+                    <h3>Maamulka Amaahda</h3>
+                    <p>La soco buug kasta oo laga amaahday maktabadda iyo xilliga ay tahay in la soo celiyo.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="about">
+            <div style="display: flex; gap: 60px; align-items: center;">
+                <div style="flex: 1;">
+                    <img src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=800&q=80" style="width: 100%; border-radius: 20px;">
+                </div>
+                <div style="flex: 1;">
+                    <h2 style="font-size: 3rem; color: var(--primary); margin-bottom: 20px;">Hadafkayaga Guud</h2>
+                    <p style="margin-bottom: 15px;">LibTech Ultra waxaa la dhisay si loo casriyeeyo maktabadaha ku yaala Soomaaliya. Waxaan aaminsanahay in aqoontu tahay furaha horumarka, maktabaduna tahay halka ay aqoontu ku dhowrsan tahay.</p>
+                    <p style="color: var(--text-gray);">Waxaan bixinaa nidaam ammaan ah, fudud, oo qof kasta uu ku shaqaysan karo isagoon u baahneyn aqoon sare oo dhanka tignoolajiyada ah.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <div class="contact-wrapper">
+                <div>
+                    <h2 style="font-size: 2.5rem; margin-bottom: 15px;">Nala Soo Xiriir</h2>
+                    <p style="color: var(--text-gray); margin-bottom: 30px;">Wixii su'aalo ah ama caawinaad ah, fadlan na soo qor.</p>
+                    <p>📍 Wadada Maka Al-Mukarama, Mogadishu</p><br>
+                    <p>📞 +252 61 000 0000</p><br>
+                    <p>📧 info@libtech.so</p>
+                </div>
+                <div class="contact-form">
+                    <input type="text" placeholder="Magacaaga">
+                    <input type="email" placeholder="Email-kaaga">
+                    <textarea rows="5" placeholder="Fariintaada qor..."></textarea>
+                    <button type="button">Dir Fariinta</button>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 Libry managment system.</p>
+        </footer>
+
+    </div>
+
+</body>
+</html>

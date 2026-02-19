@@ -1,35 +1,286 @@
 <!DOCTYPE html>
-<html>
+<html lang="so">
 <head>
-    <title>Hotel Management System</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Libary managment</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #e5ba73; 
+            --bg-dark: #1a120b;
+            --card-bg: #3c2a21; 
+            --text-light: #f9f5e7;
+            --accent: #c58940;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        
+        #loginPage {
+            height: 100vh;
+            display: flex; justify-content: center; align-items: center;
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=1350');
+            background-size: cover;
+            position: fixed; width: 100%; z-index: 2000;
+        }
+
+        .login-card {
+            background: var(--card-bg);
+            padding: 40px; border-radius: 15px; width: 350px; text-align: center;
+            border-top: 5px solid var(--primary);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+        }
+
+        .login-card input {
+            width: 100%; padding: 12px; margin: 10px 0;
+            background: var(--bg-dark); border: 1px solid var(--primary);
+            border-radius: 5px; color: white;
+        }
+
+       
+        #dashboard { display: none; }
+
+        nav {
+            background: var(--card-bg);
+            padding: 15px 5%;
+            display: flex; justify-content: space-between; align-items: center;
+            position: sticky; top: 0; z-index: 1000;
+            border-bottom: 1px solid var(--primary);
+        }
+
+        .nav-links { list-style: none; display: flex; gap: 20px; }
+        .nav-links li a {
+            text-decoration: none; color: var(--text-light); font-weight: 500;
+            cursor: pointer; transition: var(--transition);
+        }
+        .nav-links li a:hover, .active-link { color: var(--primary) !important; }
+
+        
+        .content-section { padding: 40px 8%; display: none; animation: fadeIn 0.5s ease; }
+        .active-section { display: block; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        
+        .stats-container {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px; margin-bottom: 40px;
+        }
+        .stat-box {
+            background: var(--card-bg); padding: 25px; border-radius: 10px;
+            text-align: center; border-left: 4px solid var(--primary);
+        }
+        .stat-box i { font-size: 30px; color: var(--primary); margin-bottom: 10px; }
+
+        
+        table {
+            width: 100%; border-collapse: collapse; background: var(--card-bg);
+            border-radius: 10px; overflow: hidden; margin-top: 20px;
+        }
+        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #4d3a2f; }
+        th { background: var(--accent); color: var(--bg-dark); }
+        tr:hover { background: rgba(229, 186, 115, 0.1); }
+
+        .form-container {
+            background: var(--card-bg); padding: 20px; border-radius: 10px;
+            margin-bottom: 30px; border: 1px dashed var(--primary);
+        }
+        .form-container input, .form-container select {
+            padding: 10px; margin: 5px; border-radius: 5px; border: 1px solid var(--primary);
+            background: var(--bg-dark); color: white; width: 200px;
+        }
+
+        .btn {
+            padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;
+            font-weight: bold; transition: var(--transition);
+        }
+        .btn-gold { background: var(--primary); color: var(--bg-dark); }
+        .btn-gold:hover { background: var(--accent); transform: scale(1.05); }
+        .btn-logout { background: #c0392b; color: white; }
+
+        
+        .book-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 25px;
+        }
+        .book-card {
+            background: var(--card-bg); border-radius: 10px; overflow: hidden;
+            transition: var(--transition); border-bottom: 3px solid var(--primary);
+        }
+        .book-card:hover { transform: translateY(-10px); }
+        .book-card img { width: 100%; height: 250px; object-fit: cover; }
+        .book-body { padding: 15px; text-align: center; }
+
+    </style>
 </head>
 <body>
 
-<!-- Sidebar -->
-<div style="background-color: aqua;width: 220px;height: 3000px;">
-    <h2>Hotel Management System</h2>
-    <ul>
-        <li><a href="#">Dashboard</a></li>
-        <li><a href="#">Rooms</a></li>
-        <li><a href="#">Customers</a></li>
-        <li><a href="#">Reservations</a></li>
-        <li><a href="#">Payments</a></li>
-        <li><a href="#">Logout</a></li>
-    </ul>
-</div>
+    <div id="loginPage">
+        <div class="login-card">
+            <i class="fas fa-mug-hot" style="font-size: 40px; color: var(--primary);"></i>
+            <h2 style="margin: 15px 0;">Library Admin</h2>
+            <input type="text" placeholder="Username">
+            <input type="password" placeholder="Password">
+            <button class="btn btn-gold" style="width: 100%;" onclick="showDashboard()">login</button>
+        </div>
+    </div>
 
-<!-- Dashboard Content -->
-<div style="background-color: beige;width: 3000px;height: 300px;">
-    <h1>Dashboard</h1>
-    <p>Welcome to your hotel dashboard.</p>
+    <div id="dashboard">
+        <nav>
+            <div style="font-size: 22px; font-weight: bold; color: var(--primary);"> Libary managment</div>
+            <ul class="nav-links">
+                <li><a onclick="switchSection('home')" id="nav-home" class="active-link">Home</a></li>
+                <li><a onclick="switchSection('books')" id="nav-books">Books</a></li>
+                <li><a onclick="switchSection('members')" id="nav-members">Members</a></li>
+                <li><button class="btn btn-logout" onclick="logout()">Logout</button></li>
+            </ul>
+        </nav>
 
-    <h3>Statistics</h3>
-    <ul>
-        <li>Total Rooms: 50</li>
-        <li>Booked Rooms: 22</li>
-        <li>Available Rooms: 28</li>
-    </ul>
-</div>
+        <section id="home" class="content-section active-section">
+            <h1 style="margin-bottom: 20px;">Xogta Guud (Overview)</h1>
+            <div class="stats-container">
+                <div class="stat-box"><i class="fas fa-book"></i> <h3>1,250</h3> <p>Buug Wadajir</p></div>
+                <div class="stat-box"><i class="fas fa-users"></i> <h3>450</h3> <p>Xubnaha</p></div>
+                <div class="stat-box"><i class="fas fa-exchange-alt"></i> <h3>85</h3> <p>Lagu Maqanyahay</p></div>
+                <div class="stat-box"><i class="fas fa-coffee"></i> <h3>Unlimited</h3> <p>Coffee Cups</p></div>
+            </div>
+            
+            <div class="book-grid">
+                <div class="book-card">
+                    <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=400" alt="book">
+                    <div class="book-body"><h4>Rich Dad Poor Dad</h4><p>Robert Kiyosaki</p></div>
+                </div>
+                <div class="book-card">
+                    <img src="https://images.unsplash.com/photo-1589998059171-988d887df646?auto=format&fit=crop&w=400" alt="book">
+                    <div class="book-body"><h4>Deep Work</h4><p>Cal Newport</p></div>
+                </div>
+                <div class="book-card">
+                    <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=400" alt="book">
+                    <div class="book-body"><h4>The Alchemist</h4><p>Paulo Coelho</p></div>
+                </div>
+            </div>
+        </section>
 
+        <section id="books" class="content-section">
+            <h1>Maamulka Buugaagta</h1>
+            <div class="form-container">
+                <h3>Kudar Buug Cusub</h3>
+                <input type="text" placeholder="Magaca Buugga">
+                <input type="text" placeholder="Qoraaga">
+                <select>
+                    <option>History</option>
+                    <option>Science</option>
+                    <option>Fiction</option>
+                </select>
+                <button class="btn btn-gold">Kaydi Buugga</button>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Sawirka</th>
+                        <th>Magaca Buugga</th>
+                        <th>Qoraaga</th>
+                        <th>Xaaladda</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>#001</td>
+                        <td><i class="fas fa-book-open"></i></td>
+                        <td>Somali History</td>
+                        <td>mahuran</td>
+                        <td><span style="color: #2ecc71;">Available</span></td>
+                        <td><button class="btn btn-gold" style="padding: 5px 10px;">Edit</button></td>
+                    </tr>
+                    <tr>
+                        <td>#002</td>
+                        <td><i class="fas fa-book-open"></i></td>
+                        <td>The Power of Habits</td>
+                        <td>marwa</td>
+                        <td><span style="color: #e74c3c;">Borrowed</span></td>
+                        <td><button class="btn btn-gold" style="padding: 5px 10px;">Edit</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="members" class="content-section">
+            <h1>Xubnaha Maktabadda</h1>
+            <div class="form-container">
+                <h3>Diiwaangeli Xubin Cusub</h3>
+                <input type="text" placeholder="Magaca oo buuxa">
+                <input type="email" placeholder="Email-ka">
+                <button class="btn btn-gold">Add Member</button>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Magaca</th>
+                        <th>Email</th>
+                        <th>Buugaagta uu hayo</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>ID-501</td>
+                        <td>marwa saylah ahmett</td>
+                        <td>marwa@email.com</td>
+                        <td>2 Buug</td>
+                        <td><button class="btn btn-logout" style="padding: 5px 10px;">Delete</button></td>
+                    </tr>
+                    <tr>
+                        <td>ID-502</td>
+                        <td>mudan apdiwahap ahmett</td>
+                        <td>nashaadapdiwahap@email.com</td>
+                        <td>0 Buug</td>
+                        <td><button class="btn btn-logout" style="padding: 5px 10px;">Delete</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <footer>
+            <p style="text-align: center; padding: 40px; color: #777;">&copy; 2024 Coffee Library System | Crafted with ☕</p>
+        </footer>
+    </div>
+
+    <script>function switchSection(sectionId) {
+        
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(sec => sec.classList.remove('active-section'));
+            
+            const navLinks = document.querySelectorAll('.nav-links li a');
+            navLinks.forEach(link => link.classList.remove('active-link'));
+            document.getElementById(sectionId).classList.add('active-section');
+            document.getElementById('nav-' + sectionId).classList.add('active-link');
+        
+        
+        }
+
+
+        function showDashboard() {
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+        }
+
+    
+        function logout() {
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('loginPage').style.display = 'flex';
+        }
+    </script>
 </body>
 </html>

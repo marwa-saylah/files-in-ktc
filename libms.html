@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="so">
+<head>
+    <meta charset="UTF-8">
+    <title>Library System - Interactive</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2>LMS Admin</h2>
+        <ul>
+            <li><a href="#" onclick="showSection('dashboard')"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+            <li><a href="#" onclick="showSection('bookForm')"><i class="fas fa-plus-circle"></i> Add New Book</a></li>
+            <li><a href="#" onclick="showSection('registration')"><i class="fas fa-user-plus"></i> Member Registration</a></li>
+        </ul>
+    </div>
+
+    <div class="main-container">
+        
+        <section id="dashboard" class="content-section active">
+            <h1>Dashboard Overview</h1>
+            <div class="stats">
+                <div class="stat-card"><h3>1,200</h3><p>Total Books</p></div>
+                <div class="stat-card"><h3>450</h3><p>Members</p></div>
+                <div class="stat-card"><h3>12</h3><p>Due Today</p></div>
+            </div>
+        </section>
+
+        <section id="bookForm" class="content-section">
+            <h1>Add New Book</h1>
+            <div class="form-box">
+                <form>
+                    <label>Book Title</label>
+                    <input type="text" placeholder="Enter book name...">
+                    <label>Author</label>
+                    <input type="text" placeholder="Author name...">
+                    <button type="submit" class="btn-save">Save Book</button>
+                    <button type="button" class="btn-back" onclick="showSection('dashboard')">Back to Dashboard</button>
+                </form>
+            </div>
+        </section>
+
+        <section id="registration" class="content-section">
+            <h1>Member Registration</h1>
+            <div class="form-box">
+                <form>
+                    <label>Full Name</label>
+                    <input type="text" placeholder="Student name...">
+                    <label>Student ID</label>
+                    <input type="text" placeholder="ID Number...">
+                    <button type="submit" class="btn-save">Register Member</button>
+                    <button type="button" class="btn-back" onclick="showSection('dashboard')">Back to Dashboard</button>
+                </form>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            // Qari dhamaan section-ada
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Muuji kan la gujiyay
+            document.getElementById(sectionId).classList.add('active');
+        }
+    </script>
+
+</body>
+</html>

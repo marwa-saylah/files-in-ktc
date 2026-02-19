@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="so">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LMS PRO - Library Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- CSS STYLING (Internal) --- */
+        :root {
+            --primary-color: #1a2a3a;
+            --secondary-color: #3498db;
+            --accent-color: #4fd1c5;
+            --bg-color: #f4f7f9;
+            --white: #ffffff;
+            --text-dark: #2d3748;
+            --text-light: #718096;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            display: flex;
+        }
+
+        /* Sidebar Design */
+        .sidebar {
+            width: 260px;
+            height: 100vh;
+            background: var(--primary-color);
+            position: fixed;
+            color: white;
+            transition: all 0.3s;
+            z-index: 100;
+        }
+
+        .logo-section {
+            height: 80px;
+            display: flex;
+            align-items: center;
+            padding: 0 25px;
+            background: rgba(0,0,0,0.1);
+        }
+
+        .logo-section i {
+            font-size: 28px;
+            color: var(--accent-color);
+            margin-right: 12px;
+        }
+
+        .logo-section h2 {
+            font-size: 22px;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            list-style: none;
+            padding: 20px;
+        }
+
+        .nav-links li {
+            margin-bottom: 10px;
+        }
+
+        .nav-links li a {
+            color: #cbd5e0;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+
+        .nav-links li a:hover, .nav-links li a.active {
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        .nav-links li a i {
+            margin-right: 15px;
+            font-size: 18px;
+        }
+
+        /* Main Content Design */
+        .main-content {
+            margin-left: 260px;
+            width: calc(100% - 260px);
+            min-height: 100vh;
+        }
+
+        header {
+            background: var(--white);
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .user-info img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--secondary-color);
+        }
+
+        .container {
+            padding: 30px;
+        }
+
+        /* Section Visibility */
+        .content-section {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Dashboard Cards */
+        .welcome-box {
+            background: linear-gradient(135deg, #3498db, #1a2a3a);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-bottom: 4px solid var(--secondary-color);
+        }
+
+        .stat-card i {
+            font-size: 40px;
+            color: var(--secondary-color);
+            opacity: 0.2;
+        }
+
+        .stat-card h3 {
+            font-size: 28px;
+            color: var(--text-dark);
+        }
+
+        /* Form Design */
+        .form-container {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 15px;
+            max-width: 700px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            margin: 0 auto;
+        }
+
+        .form-container h2 {
+            margin-bottom: 25px;
+            color: var(--primary-color);
+            border-left: 5px solid var(--secondary-color);
+            padding-left: 15px;
+        }
+
+        .input-box {
+            margin-bottom: 20px;
+        }
+
+        .input-box label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .input-box input, .input-box select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .input-box input:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .btn-main {
+            background: var(--secondary-color);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            flex: 2;
+        }
+
+        .btn-back {
+            background: #e2e8f0;
+            color: var(--text-dark);
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .btn-main:hover { background: #2980b9; }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="logo-section">
+            <i class="fas fa-university"></i>
+            <h2>LMS <span style="color:var(--accent-color)">PRO</span></h2>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#" id="link-dash" class="active" onclick="showPage('dashboard', 'link-dash')">
+                <i class="fas fa-columns"></i> Dashboard</a>
+            </li>
+            <li><a href="#" id="link-book" onclick="showPage('bookForm', 'link-book')">
+                <i class="fas fa-book-medical"></i> Add New Book</a>
+            </li>
+            <li><a href="#" id="link-reg" onclick="showPage('registration', 'link-reg')">
+                <i class="fas fa-user-plus"></i> Member Registration</a>
+            </li>
+            <li><a href="#"><i class="fas fa-list-ul"></i> View All Books</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <div class="title">
+                <h2 style="color: var(--text-dark)">System Management</h2>
+            </div>
+            <div class="user-info">
+                <span>Eng. Marwa saylah</span>
+                <img src="https://ui-avatars.com/api/?name=Sakariye&background=3498db&color=fff" alt="Profile">
+            </div>
+        </header>
+
+        <div class="container">
+            
+            <section id="dashboard" class="content-section active">
+                <div class="welcome-box">
+                    <h1>Ku soo dhawaaw Maamulka Maktabadda! 👋</h1>
+                    <p>Halkan ka maamul buugaagta, ardayda iyo amaahda si casri ah.</p>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="data"><h3>1,250</h3><p>Total Books</p></div>
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <div class="stat-card">
+                        <div class="data"><h3>420</h3><p>Active Students</p></div>
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <div class="stat-card">
+                        <div class="data"><h3>85</h3><p>Borrowed Books</p></div>
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                </div>
+            </section>
+
+            <section id="bookForm" class="content-section">
+                <div class="form-container">
+                    <h2><i class="fas fa-plus-circle"></i> Diiwaangali Buug Cusub</h2>
+                    <form onsubmit="event.preventDefault(); alert('Buugga waa la kaydiyay!'); showPage('dashboard', 'link-dash')">
+                        <div class="input-box">
+                            <label>Magaca Buugga</label>
+                            <input type="text" placeholder="Geli magaca buugga..." required>
+                        </div>
+                        <div class="input-box">
+                            <label>Qoraaga (Author)</label>
+                            <input type="text" placeholder="Geli qoraaga buugga..." required>
+                        </div>
+                        <div class="input-box">
+                            <label>Nooca Buugga</label>
+                            <select>
+                                <option>Technology</option>
+                                <option>Science</option>
+                                <option>History</option>
+                                <option>Literature</option>
+                            </select>
+                        </div>
+                        <div class="btn-group">
+                            <button type="submit" class="btn-main">Kaydi Buugga</button>
+                            <button type="button" class="btn-back" onclick="showPage('dashboard', 'link-dash')">Ka laabo</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <section id="registration" class="content-section">
+                <div class="form-container">
+                    <h2><i class="fas fa-id-card"></i> Diiwaangelinta Xubinta</h2>
+                    <form onsubmit="event.preventDefault(); alert('Xubinta waa la diiwaangeliyay!'); showPage('dashboard', 'link-dash')">
+                        <div class="input-box">
+                            <label>Magaca oo Dhammaystiran</label>
+                            <input type="text" placeholder="Geli magaca ardayga..." required>
+                        </div>
+                        <div class="input-box">
+                            <label>Student ID</label>
+                            <input type="text" placeholder="Geli lambarka aqoonsiga..." required>
+                        </div>
+                        <div class="input-box">
+                            <label>Email Address</label>
+                            <input type="email" placeholder="example@mail.com" required>
+                        </div>
+                        <div class="btn-group">
+                            <button type="submit" class="btn-main">Diiwaangali Xubin</button>
+                            <button type="button" class="btn-back" onclick="showPage('dashboard', 'link-dash')">Ka laabo</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <script>
+        function showPage(pageId, linkId) {
+            // Qari dhamaan qaybaha (Sections)
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => section.classList.remove('active'));
+
+            // Muuji qaybta la rabo
+            document.getElementById(pageId).classList.add('active');
+
+            // Qurxi dhinaca (Sidebar links)
+            const links = document.querySelectorAll('.nav-links a');
+            links.forEach(link => link.classList.remove('active'));
+            document.getElementById(linkId).classList.add('active');
+        }
+    </script>
+
+</body>
+</html>

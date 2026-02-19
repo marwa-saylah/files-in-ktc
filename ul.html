@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="so">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LibTech Elite | Modern Library System</title>
+    <style>
+        /* --- CSS PREMIUM STYLES --- */
+        :root {
+            --bg: #030712;
+            --accent: #00f2fe;
+            --secondary: #4facfe;
+            --glass: rgba(255, 255, 255, 0.03);
+            --card: #0f172a;
+            --text: #f8fafc;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 8%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            background: rgba(3, 7, 18, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(to right, var(--accent), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #94a3b8;
+            font-weight: 500;
+            transition: 0.3s;
+            position: relative;
+        }
+
+        nav ul li a:hover { color: var(--accent); }
+
+        /* Login/Logout Buttons */
+        .auth-actions { display: flex; gap: 15px; }
+
+        .btn {
+            padding: 10px 25px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: none;
+        }
+
+        .btn-login {
+            background: linear-gradient(45deg, var(--accent), var(--secondary));
+            color: #000;
+        }
+
+        .btn-login:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(0, 242, 254, 0.4); }
+
+        .btn-logout {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            border: 1px solid #ef4444;
+            display: none; /* Marka hore wuu qarsan yahay */
+        }
+
+        .btn-logout:hover { background: #ef4444; color: white; }
+
+        /* Sections */
+        section { padding: 120px 8% 60px; min-height: 100vh; }
+
+        /* HERO SECTION */
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: radial-gradient(circle at top right, rgba(0, 242, 254, 0.05), transparent);
+        }
+
+        .hero-content { flex: 1; animation: slideIn 1s ease; }
+
+        .hero-content h1 {
+            font-size: 4.5rem;
+            line-height: 1.1;
+            margin-bottom: 25px;
+        }
+
+        .hero-content span { color: var(--accent); }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: #94a3b8;
+            margin-bottom: 40px;
+            max-width: 550px;
+            line-height: 1.8;
+        }
+
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .hero-image img {
+            width: 90%;
+            border-radius: 30px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* ABOUT SECTION */
+        .about { background: var(--card); border-radius: 50px 50px 0 0; }
+
+        .about-title { text-align: center; margin-bottom: 80px; }
+        .about-title h2 { font-size: 3rem; margin-bottom: 15px; }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: var(--glass);
+            padding: 40px;
+            border-radius: 24px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: 0.3s;
+        }
+
+        .feature-card:hover { border-color: var(--accent); background: rgba(255,255,255,0.05); }
+
+        .feature-card h3 { color: var(--accent); margin-bottom: 15px; }
+
+        /* LOGIN PAGE (DASHBOARD) */
+        #dashboard { display: none; background: #020617; }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+        }
+
+        .book-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+        }
+
+        .book-card {
+            background: var(--card);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .book-card img { width: 100%; height: 280px; object-fit: cover; }
+        .book-info { padding: 20px; }
+
+        /* TARGET LOGIC (KA SHAQAYSIINTA) */
+        #dashboard:target { display: block; }
+        #dashboard:target ~ .main-site { display: none; }
+        #dashboard:target ~ header .btn-login { display: none; }
+        #dashboard:target ~ header .btn-logout { display: block; }
+        #dashboard:target ~ header nav { display: none; }
+
+        /* CONTACT FORM */
+        .contact-box {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--glass);
+            padding: 50px;
+            border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .contact-box input, .contact-box textarea {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            color: white;
+            outline: none;
+        }
+
+        /* ANIMATIONS */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        footer { text-align: center; padding: 40px; color: #64748b; }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">LIBTECH ELITE</div>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="auth-actions">
+            <a href="#dashboard" class="btn btn-login">Login System</a>
+            <a href="#" class="btn btn-logout">Logout Account</a>
+        </div>
+    </header>
+
+    <section id="dashboard">
+        <div style="margin-bottom: 50px;">
+            <h1 style="font-size: 3rem;">Dashboard-ka <span style="color:var(--accent)">Maktabadda</span></h1>
+            <p style="color: #94a3b8;">Maamul xogtaada oo dhan halkan.</p>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="book-list">
+                <div class="book-card">
+                    <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=400&q=80">
+                    <div class="book-info">
+                        <h4>Aqoonta Dunida</h4>
+                        <p style="font-size: 0.8rem; color: #94a3b8;">Section: History</p>
+                    </div>
+                </div>
+                <div class="book-card">
+                    <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&w=400&q=80">
+                    <div class="book-info">
+                        <h4>Somali Culture</h4>
+                        <p style="font-size: 0.8rem; color: #94a3b8;">Section: Culture</p>
+                    </div>
+                </div>
+                <div class="book-card">
+                    <img src="https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=400&q=80">
+                    <div class="book-info">
+                        <h4>Success Mindset</h4>
+                        <p style="font-size: 0.8rem; color: #94a3b8;">Section: Motivation</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feature-card" style="height: fit-content;">
+                <h3>Xogta Guud</h3>
+                <hr style="border: 0.1px solid rgba(255,255,255,0.1); margin: 15px 0;">
+                <p>Buugaagta: <b>4,500</b></p><br>
+                <p>Ardayda: <b>1,200</b></p><br>
+                <p>Amaahda: <b>150</b></p>
+            </div>
+        </div>
+    </section>
+
+    <div class="main-site">
+        
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1>Nidaamka Maamulka <span>Maktabada</span> Ugu Casrisan.</h1>
+                <p>Maamul buugaagtaada, amaahda, iyo xogta ardayda hal meel oo ammaan ah. Tiknoolajiyad kuu sahlaysa inaad maktabaddaada dunida u bandhigto.</p>
+                <div style="display: flex; gap: 20px;">
+                    <a href="#about" class="btn btn-login">Wax badan ka baro</a>
+                    <a href="#contact" class="btn" style="color: white; border: 1px solid rgba(255,255,255,0.2);">Nala hadal</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=800&q=80" alt="Library">
+            </div>
+        </section>
+
+        <section id="about" class="about">
+            <div class="about-title">
+                <h2>Maxay LibTech u Doorataa?</h2>
+                <p style="color: #94a3b8; max-width: 600px; margin: 0 auto;">Waxaan bixinaa adeeg dhakhso badan, muuqaal qurux badan, iyo nidaam ammaan ah oo lagu kalsoonaan karo.</p>
+            </div>
+            
+            <div class="grid-3">
+                <div class="feature-card">
+                    <h3>Raadin Degdeg Ah</h3>
+                    <p>Ka raadi kumanaan buug magacooda, qoraaga, ama qaybta ay ka tirsan yihiin ilbiriqsiyo gudahood.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Diiwaangelin</h3>
+                    <p>Si fudud ku diiwaangeli buugaagta cusub iyo xubnaha cusub ee maktabadda adoo isticmaalaya foomam fudud.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Warbixin Sugan</h3>
+                    <p>Hel warbixin dhamaystiran oo ku saabsan buugaagta baxay, kuwa soo laabtay, iyo inta la amaahday.</p>
+                </div>
+            </div>
+
+            <div style="margin-top: 80px; display: flex; align-items: center; gap: 40px;">
+                <div style="flex: 1;">
+                    <img src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=800&q=80" style="width: 100%; border-radius: 20px;">
+                </div>
+                <div style="flex: 1;">
+                    <h3 style="font-size: 2rem; margin-bottom: 20px;">Hadafkeena Guud</h3>
+                    <p style="line-height: 2; color: #94a3b8;">Waxaan u taaganahay inaan aqoonta u dhoweyno dadka annagoo adeegsanayna tignoolajiyada. Maktabad kasta waxay u baahan tahay maamul hufan si ay ugu adeegto bulshada si hagar la'aan ah.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <div class="about-title">
+                <h2>Nala Soo Xiriir</h2>
+                <p style="color: #94a3b8;">Wixii su'aalo ah ama caawinaad ah fadlan na soo qor.</p>
+            </div>
+            <div class="contact-box">
+                <form>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <input type="text" placeholder="Magacaaga">
+                        <input type="email" placeholder="Email-kaaga">
+                    </div>
+                    <input type="text" placeholder="Mowduuca">
+                    <textarea rows="6" placeholder="Fariintaada halkan ku qor..."></textarea>
+                    <button type="button" class="btn btn-login" style="width: 100%; padding: 18px;">Dir Fariinta</button>
+                </form>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2024 LibTech Elite. Crafted for Excellence.</p>
+        </footer>
+    </div>
+
+</body>
+</html>
