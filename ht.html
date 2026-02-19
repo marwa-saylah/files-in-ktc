@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Hotel Management — Demo</title>
+  <style>
+    :root{
+      --bg:#0f1724; --card:#0b1220; --muted:#9aa4b2; --accent:#3b82f6; --accent-2:#06b6d4; --glass: rgba(255,255,255,0.04);
+      --radius:14px; --pad:18px; --shadow: 0 6px 20px rgba(2,6,23,0.6);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:linear-gradient(180deg,#071029 0%, #071627 100%);color:#e6eef8}
+    .container{max-width:1150px;margin:36px auto;padding:18px}
+
+    /* Header */
+    header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(59,130,246,0.18)}
+    .logo svg{width:26px;height:26px}
+    .brand h1{margin:0;font-size:18px;letter-spacing:0.2px}
+    .brand p{margin:0;font-size:12px;color:var(--muted)}
+
+    /* Top controls */
+    .top-controls{display:flex;gap:12px;align-items:center}
+    .btn{background:var(--accent);color:white;padding:10px 14px;border-radius:10px;border:0;cursor:pointer;font-weight:600;box-shadow:0 6px 18px rgba(59,130,246,0.12)}
+    .btn.secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+    .search{background:var(--glass);padding:8px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);display:flex;align-items:center;gap:8px;color:var(--muted)}
+    .search input{background:transparent;border:0;outline:none;color:inherit}
+
+    /* Layout */
+    .layout{display:grid;grid-template-columns:260px 1fr;gap:18px}
+    nav{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);padding:var(--pad);border-radius:var(--radius);box-shadow:var(--shadow)}
+    nav ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
+    nav li{display:flex;align-items:center;gap:12px;padding:10px;border-radius:10px;color:var(--muted);cursor:pointer}
+    nav li.active{background:linear-gradient(90deg, rgba(59,130,246,0.12), rgba(6,182,212,0.06));color:#eaf4ff}
+    nav li svg{width:18px;height:18px;opacity:0.9}
+
+    main{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:var(--pad);border-radius:var(--radius);box-shadow:var(--shadow);min-height:520px}
+
+    /* Dashboard cards */
+    .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}
+    .card{background:rgba(255,255,255,0.02);padding:14px;border-radius:12px}
+    .card h3{margin:0;font-size:13px;color:var(--muted)}
+    .card p{margin:8px 0 0;font-size:20px;font-weight:700}
+
+    /* Table */
+    table{width:100%;border-collapse:collapse;margin-top:6px}
+    th,td{padding:12px 10px;text-align:left;font-size:14px;border-bottom:1px dashed rgba(255,255,255,0.03);color:var(--muted)}
+    th{font-size:12px;color:var(--muted)}
+    tbody tr:hover td{background:linear-gradient(90deg, rgba(255,255,255,0.01), transparent)}
+
+    /* Booking form & room cards */
+    .grid-2{display:grid;grid-template-columns:1fr 340px;gap:16px}
+    .room-card{display:flex;gap:12px;align-items:center;padding:12px;border-radius:12px;background:linear-gradient(90deg, rgba(255,255,255,0.02), transparent)}
+    .room-card img{width:82px;height:64px;border-radius:8px;object-fit:cover}
+    .room-meta h4{margin:0;font-size:15px}
+    .room-meta p{margin:6px 0 0;font-size:13px;color:var(--muted)}
+
+    .form{background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);padding:12px;border-radius:12px}
+    .form label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
+    .form input,.form select{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit;margin-bottom:12px}
+
+    footer{margin-top:14px;color:var(--muted);font-size:13px;text-align:center}
+
+    /* Responsive */
+    @media (max-width:980px){.cards{grid-template-columns:repeat(2,1fr)}.layout{grid-template-columns:1fr}.grid-2{grid-template-columns:1fr}.container{padding:14px}}
+    @media (max-width:520px){.cards{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo" aria-hidden>
+          <!-- hotel icon -->
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 11V21H21V11L12 5L3 11Z" stroke="white" stroke-opacity="0.9" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/></svg>
+        </div>
+        <div>
+          <h1>Horizon Hotel — Management</h1>
+          <p>Dashboard · Bookings · Rooms · Guests</p>
+        </div>
+      </div>
+      <div class="top-controls">
+        <div class="search"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M21 21L15 15" stroke="white" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="11" cy="11" r="6" stroke="white" stroke-opacity="0.7" stroke-width="1.5"/></svg><input placeholder="Search bookings, guests, rooms..." /></div>
+        <button class="btn">New Booking</button>
+        <button class="btn secondary">Export</button>
+      </div>
+    </header>
+
+    <div class="layout">
+      <nav>
+        <ul>
+          <li class="active"><svg viewBox="0 0 24 24" fill="none"><path d="M3 12L12 3L21 12V21H3V12Z" stroke="white" stroke-opacity="0.9" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Dashboard</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="7" width="18" height="13" rx="2" stroke="white" stroke-opacity="0.9" stroke-width="1.2"/></svg>Bookings</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M5 3H19V21H5V3Z" stroke="white" stroke-opacity="0.9" stroke-width="1.2"/></svg>Rooms</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="7" r="4" stroke="white" stroke-opacity="0.9" stroke-width="1.2"/><path d="M5 21C5 17 9 15 12 15C15 15 19 17 19 21" stroke="white" stroke-opacity="0.9" stroke-width="1.2"/></svg>Guests</li>
+          <li><svg viewBox="0 0 24 24" fill="none"><path d="M12 2L12 22" stroke="white" stroke-opacity="0.9" stroke-width="1.2"/><path d="M2 12L22 12" stroke="white" stroke-opacity="0.9" stroke-width="1.2"/></svg>Reports</li>
+        </ul>
+      </nav>
+
+      <main>
+        <!-- Top KPIs -->
+        <section class="cards" aria-label="Key performance indicators">
+          <div class="card"><h3>Occupancy</h3><p>78%</p></div>
+          <div class="card"><h3>Today's Check-ins</h3><p>24</p></div>
+          <div class="card"><h3>Available Rooms</h3><p>42</p></div>
+          <div class="card"><h3>Revenue (30d)</h3><p>$12,480</p></div>
+        </section>
+
+        <!-- Main content -->
+        <section class="grid-2">
+          <div>
+            <h2 style="margin:0 0 10px">Upcoming Bookings</h2>
+            <table aria-label="Upcoming bookings">
+              <thead>
+                <tr><th>Guest</th><th>Room</th><th>Check-in</th><th>Check-out</th><th>Status</th></tr>
+              </thead>
+              <tbody id="bookings-table">
+                <tr><td>Maria Khan</td><td>Deluxe — 302</td><td>Dec 12, 2025</td><td>Dec 15, 2025</td><td>Confirmed</td></tr>
+                <tr><td>Omar Ali</td><td>Suite — 110</td><td>Dec 13, 2025</td><td>Dec 14, 2025</td><td>Checked-in</td></tr>
+                <tr><td>Fatima Yusuf</td><td>Standard — 205</td><td>Dec 14, 2025</td><td>Dec 16, 2025</td><td>Pending</td></tr>
+              </tbody>
+            </table>
+
+            <h3 style="margin-top:18px">Rooms</h3>
+            <div id="rooms-list" style="display:flex;flex-direction:column;gap:10px;margin-top:10px">
+              <div class="room-card"><img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='160' viewBox='0 0 240 160'><rect width='240' height='160' fill='%230b1220'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%238fa8c7' font-family='Arial' font-size='22'>Room image</text></svg>" alt="Room"><div class="room-meta"><h4>Deluxe Room — 302</h4><p>King bed · Sea view · $85/night</p></div></div>
+              <div class="room-card"><img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='160' viewBox='0 0 240 160'><rect width='240' height='160' fill='%230b1220'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%238fa8c7' font-family='Arial' font-size='22'>Room image</text></svg>" alt="Room"><div class="room-meta"><h4>Suite — 110</h4><p>2 Beds · Living area · $180/night</p></div></div>
+            </div>
+
+          </div>
+
+          <aside>
+            <div class="form">
+              <h3 style="margin:0 0 12px">Quick Booking</h3>
+              <label>Guest name</label>
+              <input id="guestName" placeholder="Full name" />
+              <label>Room</label>
+              <select id="roomSelect"><option value="Deluxe - 302">Deluxe — 302</option><option>Suite — 110</option><option>Standard — 205</option></select>
+              <label>Check-in</label>
+              <input id="checkIn" type="date" />
+              <label>Check-out</label>
+              <input id="checkOut" type="date" />
+              <label>Payment</label>
+              <select id="payment"><option>Pay at hotel</option><option>Prepaid (card)</option></select>
+              <button class="btn" style="width:100%" onclick="createBooking()">Create Booking</button>
+            </div>
+
+            <div style="height:14px"></div>
+
+            <div class="form">
+              <h4 style="margin:0 0 12px">Today's Summary</h4>
+              <p style="margin:0;color:var(--muted)">Check-ins: <strong id="sumCheckin">24</strong></p>
+              <p style="margin:8px 0 0;color:var(--muted)">Check-outs: <strong id="sumCheckout">9</strong></p>
+              <p style="margin:8px 0 0;color:var(--muted)">No-shows: <strong id="sumNoShow">1</strong></p>
+            </div>
+          </aside>
+        </section>
+
+        <footer>Horizon Hotel • Demo interface — not connected to a backend</footer>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    // Small client-side demo behavior (no backend)
+    function createBooking(){
+      const name = document.getElementById('guestName').value.trim();
+      const room = document.getElementById('roomSelect').value;
+      const inDate = document.getElementById('checkIn').value;
+      const outDate = document.getElementById('checkOut').value;
+      if(!name || !inDate || !outDate){
+        alert('Please enter name, check-in and check-out dates.');
+        return;
+      }
+      const tbody = document.getElementById('bookings-table');
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${escapeHtml(name)}</td><td>${escapeHtml(room)}</td><td>${formatDate(inDate)}</td><td>${formatDate(outDate)}</td><td>Pending</td>`;
+      tbody.prepend(tr);
+      document.getElementById('guestName').value='';
+      alert('Booking created (demo). To make this real, connect to a backend API.');
+    }
+    function formatDate(s){ const d=new Date(s); return d.toLocaleDateString(); }
+    function escapeHtml(t){ return t.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
+
+    // Small enhancement: auto-fill next 2 demo bookings when JS runs
+    (function seedDemo(){
+      const tbody = document.getElementById('bookings-table');
+      const now = new Date();
+      const d1 = new Date(now.getFullYear(), now.getMonth(), now.getDate()+2);
+      const d2 = new Date(now.getFullYear(), now.getMonth(), now.getDate()+4);
+      const tr = document.createElement('tr'); tr.innerHTML = `<td>Demo Guest</td><td>Standard — 205</td><td>${d1.toLocaleDateString()}</td><td>${d2.toLocaleDateString()}</td><td>Confirmed</td>`;
+      tbody.prepend(tr);
+    })();
+  </script>
+</body>
+</html>

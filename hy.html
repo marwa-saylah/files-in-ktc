@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="so">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Hotel Management - Booking Form</title>
+  <style>
+    /* Simple responsive form styling */
+    :root { --accent:#0b74de; --muted:#666; --bg:#f7f9fc; --card:#fff; }
+    body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+           margin:0; background:var(--bg); color:#111; padding:24px; }
+    .container { max-width:1000px; margin:0 auto; display:grid; gap:20px;
+                 grid-template-columns: 1fr; }
+    @media(min-width:900px){ .container { grid-template-columns: 1fr 1fr; } }
+    .card { background:var(--card); border-radius:10px; padding:18px; box-shadow:0 6px 18px rgba(10,20,40,0.06); }
+    h2 { margin:0 0 12px 0; font-size:18px; color:var(--accent); }
+    label { display:block; font-size:13px; margin:10px 0 6px; color:var(--muted); }
+    input[type="text"], input[type="email"], input[type="tel"], input[type="number"],
+    input[type="date"], select, textarea {
+      width:100%; padding:10px 12px; border:1px solid #e1e6ee; border-radius:8px; box-sizing:border-box;
+      font-size:14px;
+    }
+    .row { display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
+    .full { grid-column: 1 / -1; }
+    .actions { display:flex; gap:8px; margin-top:14px; }
+    button { background:var(--accent); color:white; border:none; padding:10px 14px; border-radius:8px; cursor:pointer; }
+    button.secondary { background:#e6eef9; color:var(--accent); }
+    .note { font-size:13px; color:#b23; margin-top:8px; }
+    .summary { font-size:14px; background:#fbfcff; padding:10px; border-radius:8px; border:1px solid #eef3ff; margin-top:10px; }
+  </style>
+</head>
+<body>
+  <h1 style="text-align:center; margin-bottom:18px;">Hotel Management — Forms</h1>
+
+  <div class="container">
+    <!-- Customer Form -->
+    <div class="card" id="customerCard">
+      <h2>Customer Registration</h2>
+      <form id="customerForm" autocomplete="off">
+        <label for="full_name">Magaca buuxa</label>
+        <input id="full_name" name="full_name" type="text" required placeholder="Magaca buuxa">
+
+        <label for="phone">Telefoon</label>
+        <input id="phone" name="phone" type="tel" required placeholder="+252 6xx xxx xxx">
+
+        <label for="email">Email (ikhtiyaari)</label>
+        <input id="email" name="email" type="email" placeholder="email@example.com">
+
+        <label for="address">Cinwaanka (ikhtiyaari)</label>
+        <input id="address" name="address" type="text" placeholder="Address">
+
+        <label for="nationality">Dhalashada</label>
+        <input id="nationality" name="nationality" type="text" placeholder="Somalia">
+
+        <div class="actions">
+          <button type="submit">Diiwaangeli</button>
+          <button type="button" class="secondary" onclick="document.getElementById('customerForm').reset()">Nadiifi</button>
+        </div>
+
+        <div id="customerMsg" class="note" aria-live="polite" style="display:none;"></div>
+      </form>
+    </div>
+
+    <!-- Booking + Payment Form -->
+    <div class="card" id="bookingCard">
+      <h2>Booking & Payment</h2>
+      <form id="bookingForm" autocomplete="off">
+        <label for="customer_select">Xulo ama geli Customer ID (waxaa laga isticmaali karaa diiwaanka kor ku xusan)</label>
+        <input id="customer_select" name="customer_select" type="text" placeholder="customer_id ama magac">
+
+        <div class="row">
+          <div>
+            <label for="room_number">Room Number</label>
+            <input id="room_number" name="room_number" type="text" required placeholder="101">
+          </div>
+          <div>
+            <label for="room_type">Room Type</label>
+            <select id="room_type" name="room_type" required>
+              <option value="">-- Dooro --</option>
+              <option>Standard</option>
+              <option>Deluxe</option>
+              <option>Suite</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label for="check_in">Check-in Date</label>
+            <input id="check_in" name="check_in" type="date" required>
+          </div>
+          <div>
+            <label for="check_out">Check-out Date</label>
+            <input id="check_out" name="check_out" type="date" required>
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label for="price_per_night">Price per Night (USD)</label>
+            <input id="price_per_night" name="price_per_night" type="number" min="0" step="0.01" value="0.00" required>
+          </div>
+          <div>
+            <label for="capacity">Capacity (guests)</label>
+            <input id="capacity" name="capacity" type="number" min="1" step="1" value="1" required>
+          </div>
+        </div>
+
+        <label for="notes">Notes (ikhtiyaari)</label>
+        <textarea id="notes" name="notes" rows="2" placeholder="Requests: extra bed, late check-in..."></textarea>
+
+        <div class="summary" id="calcSummary">
+          Habeen: <span id="nights">0</span> — Total (USD): <span id="totalAmount">0.00</span>
+        </div>
+
+        <h3 style="margin-top:12px; font-size:15px; color:var(--accent);">Payment</h3>
+        <label for="payment_method">Payment Method</label>
+        <select id="payment_method" name="payment_method" required>
+          <option value="">-- Dooro --</option>
+          <option>Cash</option>
+          <option>Card</option>
+          <option>Mobile Money</option>
+        </select>
+
+        <label for="amount_paid">Amount Paid (USD)</label>
+        <input id="amount_paid" name="amount_paid" type="number" min="0" step="0.01" value="0.00" required>
+
+        <div class="actions">
+          <button type="submit">Create Booking</button>
+          <button type="button" class="secondary" onclick="document.getElementById('bookingForm').reset(); updateSummary()">Reset</button>
+        </div>
+
+        <div id="bookingMsg" class="note" aria-live="polite" style="display:none;"></div>
+      </form>
+    </div>
+
+    <!-- Optional: Room Management Card -->
+    <div class="card full" style="grid-column:1 / -1;">
+      <h2>Room Quick Add (optional)</h2>
+      <form id="roomForm">
+        <div class="row">
+          <div>
+            <label for="r_number">Room Number</label>
+            <input id="r_number" type="text" required placeholder="102">
+          </div>
+          <div>
+            <label for="r_price">Price per Night</label>
+            <input id="r_price" type="number" min="0" step="0.01" value="0.00" required>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top:6px;">
+          <div>
+            <label for="r_type">Type</label>
+            <select id="r_type"><option>Standard</option><option>Deluxe</option><option>Suite</option></select>
+          </div>
+          <div>
+            <label for="r_capacity">Capacity</label>
+            <input id="r_capacity" type="number" min="1" value="2">
+          </div>
+        </div>
+
+        <div class="actions" style="margin-top:8px;">
+          <button type="submit">Add Room</button>
+          <button type="button" class="secondary" onclick="document.getElementById('roomForm').reset()">Reset</button>
+        </div>
+
+        <div id="roomMsg" class="note" aria-live="polite" style="display:none;"></div>
+      </form>
+    </div>
+  </div>
+
+<script>
+  // Utility: format number to 2 decimals
+  function format2(n){ return Number(n).toFixed(2); }
+
+  const checkIn = document.getElementById('check_in');
+  const checkOut = document.getElementById('check_out');
+  const priceInput = document.getElementById('price_per_night');
+  const nightsEl = document.getElementById('nights');
+  const totalEl = document.getElementById('totalAmount');
+
+  function calcNights() {
+    const inDate = new Date(checkIn.value);
+    const outDate = new Date(checkOut.value);
+    if (!checkIn.value || !checkOut.value) return 0;
+    const diff = (outDate - inDate) / (1000*60*60*24);
+    return isNaN(diff) ? 0 : diff;
+  }
+
+  function updateSummary(){
+    const nights = Math.max(0, Math.floor(calcNights()));
+    const price = parseFloat(priceInput.value) || 0;
+    const total = nights * price;
+    nightsEl.textContent = nights;
+    totalEl.textContent = format2(total);
+  }
+
+  // Events to auto-update summary
+  [checkIn, checkOut, priceInput].forEach(el => el.addEventListener('change', updateSummary));
+  [checkIn, checkOut, priceInput].forEach(el => el.addEventListener('input', updateSummary));
+
+  // Booking form submit
+  document.getElementById('bookingForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const inVal = checkIn.value, outVal = checkOut.value;
+    const nights = calcNights();
+    const bookingMsg = document.getElementById('bookingMsg');
+    bookingMsg.style.display = 'none';
+
+    if (!inVal || !outVal) {
+      bookingMsg.style.display = 'block';
+      bookingMsg.textContent = 'Fadlan geli taariikhaha Check-in iyo Check-out.';
+      return;
+    }
+    if (nights <= 0) {
+      bookingMsg.style.display = 'block';
+      bookingMsg.textContent = 'Check-out waa inuu ka weyn/saaran yahay Check-in (minimum 1 habeen).';
+      return;
+    }
+
+    // Simple payment check
+    const total = nights * (parseFloat(priceInput.value) || 0);
+    const paid = parseFloat(document.getElementById('amount_paid').value) || 0;
+    if (paid < 0) {
+      bookingMsg.style.display = 'block';
+      bookingMsg.textContent = 'Fadlan geli lacag sax ah.';
+      return;
+    }
+
+    // Normally here you'd send data to server via fetch/AJAX.
+    bookingMsg.style.display = 'block';
+    bookingMsg.style.color = 'green';
+    bookingMsg.textContent = `Booking created: ${nights} habeen, Total USD ${format2(total)} — Paid USD ${format2(paid)}. (Tani waa demo; ku dar server-side si aad u kaydiso)`;
+
+    updateSummary();
+  });
+
+  // Customer form submit (demo behavior)
+  document.getElementById('customerForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const name = document.getElementById('full_name').value.trim();
+    const msg = document.getElementById('customerMsg');
+    if (!name) {
+      msg.style.display = 'block';
+      msg.textContent = 'Magaca waa qasab.';
+      return;
+    }
+    msg.style.display = 'block';
+    msg.style.color = 'green';
+    msg.textContent = `Customer "${name}" waa la diiwaan geliyey (demo). Isticmaal ID-ga markaad buuxineyso booking-ka.`;
+    this.reset();
+  });
+
+  // Room add demo
+  document.getElementById('roomForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const rn = document.getElementById('r_number').value.trim();
+    const rm = document.getElementById('r_price').value;
+    const msg = document.getElementById('roomMsg');
+    if (!rn) {
+      msg.style.display = 'block';
+      msg.textContent = 'Geli room number.';
+      return;
+    }
+    msg.style.display = 'block';
+    msg.style.color = 'green';
+    msg.textContent = `Room ${rn} (USD ${format2(rm)}) waa la daray (demo).`;
+    this.reset();
+  });
+
+  // initialize
+  updateSummary();
+</script>
+</body>
+</html>
